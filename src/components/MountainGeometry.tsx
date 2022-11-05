@@ -42,6 +42,23 @@ function generateChunk({fromChunk, hFactor = 1}: ChunkGeneratorOptions):number[]
   } )
 }
 
+type PopulateInitials = {
+  lastChunk:number[]
+  allChunks:  number[]
+  i: number
+  chunkCount: number
+}
+function populateInitial({lastChunk, allChunks, i, chunkCount}:PopulateInitials):number[] {
+
+  if (i > chunkCount) {
+    return allChunks
+  } else {
+    const newChunk = generateChunk({fromChunk:lastChunk})
+    const incr = i + 1
+    return populateInitial({i:incr, allChunks: [...allChunks, ...newChunk], lastChunk:newChunk, chunkCount})
+  }
+}
+
 export const MountainGenerativeGeometry = ({
   offsetX,
 }: MountainGenerativeGeometry) => {
@@ -67,24 +84,29 @@ export const MountainGenerativeGeometry = ({
   const additionnalChunk2 = generateChunk({fromChunk:additionnalChunk})
   const additionnalChunk3 = generateChunk({fromChunk:additionnalChunk2})
 
-  const chunks = new Float32Array([...baseChunk, ...additionnalChunk, ...additionnalChunk2, ...additionnalChunk3]);
+  
+  const chunkies = useMemo(() => {
+  const initialz = populateInitial({lastChunk:baseChunk, allChunks: baseChunk, i:0, chunkCount:10})
 
+  // const chunks = new Float32Array([...baseChunk, ...additionnalChunk, ...additionnalChunk2, ...additionnalChunk3]);
+  return new Float32Array(initialz.flat());
+  }, [])
 
 const normals = useMemo(() => {
 
     // calc same normals for all tris
-    const n = Array.from({ length: chunks.length / 3 }, () => [
+    const n = Array.from({ length: chunkies.length / 3 }, () => [
       0, 0, 1,
     ]);
     return new Float32Array(n.flat());
 
     
-}, [chunks.length])
+}, [chunkies.length])
 
 
   const colors = useMemo(() => { 
     // calc same normals for all tris
-    const c = Array.from({ length: chunks.length / 3 }, () => [
+    const c = Array.from({ length: chunkies.length / 3 }, () => [
       1, 0, 0,
     ]);
      const colors = new Float32Array(c.flat());
@@ -100,8 +122,8 @@ const normals = useMemo(() => {
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          array={chunks}
-          count={chunks.length / 3}
+          array={chunkies}
+          count={chunkies.length / 3}
           itemSize={3}
         />
         <bufferAttribute
@@ -117,7 +139,7 @@ const normals = useMemo(() => {
           itemSize={3}
         />
       </bufferGeometry>
-      <meshStandardMaterial vertexColors   />
+      <meshStandardMaterial vertexColors wireframe   />
     </mesh>
   );
 };
