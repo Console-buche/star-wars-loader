@@ -14,7 +14,7 @@ export const Scene = () => {
       <Mountains />
       {/* <MountainPiece top={[1, 5, 0]} /> */}
       {/* <Ridge chunkCount={6} /> */}
-      <MountainGenerativeGeometry />
+      <MountainGenerativeGeometry scrollSpeed={0.15} />
       <ambientLight />
       <OrbitControls />
     </Canvas>

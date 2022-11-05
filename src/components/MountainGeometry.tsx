@@ -1,10 +1,13 @@
-import { useMemo } from "react";
+import { useFrame } from "@react-three/fiber";
+import { useMemo, useRef } from "react";
+import { BufferAttribute } from "three";
 
 type MountainGenerativeGeometry = {
   top?: [number, number, number];
   left?: [number, number, number];
   right?: [number, number, number];
   offsetX?: number;
+  scrollSpeed: number
 };
 
 type ChunkGeneratorOptions = {
@@ -60,7 +63,10 @@ function populateInitial({lastChunk, allChunks, i, chunkCount}:PopulateInitials)
 
 export const MountainGenerativeGeometry = ({
   offsetX,
+  scrollSpeed
 }: MountainGenerativeGeometry) => {
+
+  const refPositions = useRef<BufferAttribute>(null)
 
   const rightTri = [ 
     -1, 0, 0, 
@@ -79,13 +85,10 @@ export const MountainGenerativeGeometry = ({
     ...leftTri
   ]
 
-  const additionnalChunk = generateChunk({fromChunk:baseChunk})
-  const additionnalChunk2 = generateChunk({fromChunk:additionnalChunk})
-  const additionnalChunk3 = generateChunk({fromChunk:additionnalChunk2})
 
   
   const chunkies = useMemo(() => {
-  const initialz = populateInitial({lastChunk:baseChunk, allChunks: baseChunk, i:0, chunkCount:10})
+  const initialz = populateInitial({lastChunk:baseChunk, allChunks: baseChunk, i:0, chunkCount:20})
 
   // const chunks = new Float32Array([...baseChunk, ...additionnalChunk, ...additionnalChunk2, ...additionnalChunk3]);
   return new Float32Array(initialz.flat());
@@ -113,17 +116,44 @@ const normals = useMemo(() => {
     return colors
   }, [])
 
+  useFrame(() => {
+ 
+    if (!refPositions.current) {
+      return
+    }
+    
 
-  const t = Math.random() + 0.1;
+    for (let i = 0; i <= refPositions.current.array.length; i++) {
+      
+      const x = refPositions.current.getX(i)
+      if (x < -6  ) {
+        refPositions.current.setX(i, 10 )
+        const newAttributes = Array.from(refPositions.current.array).slice(18)
+        const newChunk = generateChunk({fromChunk:newAttributes.slice(-18)})
+        refPositions.current.copyArray([...newAttributes, ...newChunk])
+      } else {
+        refPositions.current.setX(i, x - scrollSpeed ) // SPEED
+      }
+      refPositions.current.needsUpdate = true
+
+
+      
+  }
+  
+  })
+
+
 
   return (
     <mesh position-x={offsetX}>
       <bufferGeometry>
         <bufferAttribute
+          ref={refPositions}
           attach="attributes-position"
           array={chunkies}
           count={chunkies.length / 3}
           itemSize={3}
+          
         />
         <bufferAttribute
           attach="attributes-color"
@@ -138,7 +168,7 @@ const normals = useMemo(() => {
           itemSize={3}
         />
       </bufferGeometry>
-      <meshStandardMaterial vertexColors wireframe   />
+      <meshStandardMaterial vertexColors    />
     </mesh>
   );
 };
