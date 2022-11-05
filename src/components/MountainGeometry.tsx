@@ -10,11 +10,10 @@ type MountainGenerativeGeometry = {
 type ChunkGeneratorOptions = {
   fromChunk: number[]
   hFactor?: number
+  baseHeight?: number
 }
 
-function generateChunk({fromChunk, hFactor = 1}: ChunkGeneratorOptions):number[] {
-
-  console.log(fromChunk)
+function generateChunk({fromChunk, hFactor = 1, baseHeight=3}: ChunkGeneratorOptions):number[] {
 
   const newTop =  Math.random() * hFactor
   const offsetX = 2
@@ -27,7 +26,7 @@ function generateChunk({fromChunk, hFactor = 1}: ChunkGeneratorOptions):number[]
     }
 
     if (i === 7 || i === 9 || i === 10) { // update top to newTop
-      return position + newTop
+      return baseHeight + newTop
     }
 
     if (i === 12 ) { // update top left corner
