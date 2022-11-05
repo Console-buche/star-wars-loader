@@ -3,10 +3,12 @@ import { useMemo, useRef } from "react";
 import { BufferAttribute } from "three";
 
 type MountainGenerativeGeometry = {
-
-  offsetX?: number;
   scrollSpeed: number
-  chunkCount: number
+  chunkCount: number,
+  position: [number,number,number]
+  animate?: boolean
+  scaleY?:number
+  scaleX?:number
 };
 
 type ChunkGeneratorOptions = {
@@ -34,7 +36,7 @@ function generateChunk({fromChunk, hFactor = 1, baseHeight=3}: ChunkGeneratorOpt
     if (i === 12 ) { // update top left corner
       return fromChunk[6]
     }
-    if (i ===13 ) { // update top left corner
+    if (i === 13 ) { // update top left corner
       return fromChunk[7]
     }
 
@@ -60,10 +62,12 @@ function populateInitial({lastChunk, allChunks, i, chunkCount}:PopulateInitials)
   }
 }
 
-export const MountainGenerativeGeometry = ({
-  offsetX,
+export const MountainRidge = ({
   scrollSpeed,
-  chunkCount
+  chunkCount,
+  position,
+  scaleY, scaleX,
+  animate = false
 }: MountainGenerativeGeometry) => {
 
   const refPositions = useRef<BufferAttribute>(null)
@@ -71,12 +75,12 @@ export const MountainGenerativeGeometry = ({
   const rightTri = [ 
     -1, 0, 0, 
     1, 0, 0,
-    1, 2, 0,
+    1, 3, 0,
   ]
 
   const leftTri = [
-    1, 2, 0,
-    -1, 2, 0,
+    1, 3, 0,
+    -1, 3, 0,
     -1, 0, 0,
   ]
 
@@ -85,15 +89,12 @@ export const MountainGenerativeGeometry = ({
     ...leftTri
   ]
 
-
-  
   const chunkies = useMemo(() => {
     const initialz = populateInitial({lastChunk:baseChunk, allChunks: baseChunk, i:0, chunkCount:chunkCount})
     return new Float32Array(initialz.flat());
   }, [])
 
-const normals = useMemo(() => {
-
+  const normals = useMemo(() => {
     // calc same normals for all tris
     const n = Array.from({ length: chunkies.length / 3 }, () => [
       0, 0, 1,
@@ -103,29 +104,26 @@ const normals = useMemo(() => {
     
 }, [chunkies.length])
 
+const colors = useMemo(() => { 
+  // calc same normals for all tris
+  const c = Array.from({ length: chunkies.length / 3 }, (_,i) => {
+    return [36/255, 30/255, 52/255]});
+   const colors = new Float32Array(c.flat());
 
-  const colors = useMemo(() => { 
-    // calc same normals for all tris
-    const c = Array.from({ length: chunkies.length / 3 }, () => [
-      1, 0, 0,
-    ]);
-     const colors = new Float32Array(c.flat());
+  return colors
+}, [])
 
-    return colors
-  }, [])
 
   useFrame(() => {
- 
-    if (!refPositions.current) {
+    
+    if (!refPositions.current || !animate) {
       return
     }
-    
 
     let newAttributes:number[] = []
     let newChunk:number[] = []
 
     for (let i = 0; i <= refPositions.current.array.length; i++) {
-      
       const x = refPositions.current.getX(i)
         refPositions.current.setX(i, x - scrollSpeed ) // SPEED
        if (x < -6 ) {
@@ -141,7 +139,7 @@ const normals = useMemo(() => {
 
 
   return (
-    <mesh position-x={offsetX}>
+    <mesh position={position} scale-x={scaleX} scale-y={scaleY}>
       <bufferGeometry>
         <bufferAttribute
           ref={refPositions}
@@ -151,12 +149,14 @@ const normals = useMemo(() => {
           itemSize={3}
           
         />
-        <bufferAttribute
+         <bufferAttribute
           attach="attributes-color"
           array={colors}
           count={colors.length / 3}
           itemSize={3}
         />
+
+
         <bufferAttribute
           attach="attributes-normal"
           array={normals}
@@ -164,7 +164,9 @@ const normals = useMemo(() => {
           itemSize={3}
         />
       </bufferGeometry>
-      <meshStandardMaterial vertexColors wireframe     />
+      <meshStandardMaterial vertexColors />
     </mesh>
   );
 };
+
+// TODO : shader material with normal & dot product instead of UVs to interpolate colors 
