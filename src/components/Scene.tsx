@@ -12,7 +12,7 @@ export const Scene = () => {
       {/* <Box /> */}
       <Mountains />
       {/* <MountainPiece top={[1, 5, 0]} /> */}
-      <Ridge chunkCount={10} />
+      <Ridge chunkCount={30} />
       <ambientLight />
       <OrbitControls />
     </Canvas>

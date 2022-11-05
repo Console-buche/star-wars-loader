@@ -6,21 +6,17 @@ type MountainPiece = {
 };
 
 export const MountainPiece = ({
-  top = [0, 2, 0],
   left = [-1, 0, 0],
   right = [1, 0, 0],
   offsetX,
 }: MountainPiece) => {
   const positions = new Float32Array([
     ...right,
-    ...top,
     ...left,
 
-    ...left,
     left[0],
     -2,
     0,
-    ...right,
 
     left[0],
     -2,
@@ -38,6 +34,8 @@ export const MountainPiece = ({
     1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
     0, 0,
   ]);
+
+  const t = Math.random() + 0.1;
 
   return (
     <mesh position-x={offsetX}>
@@ -61,7 +59,7 @@ export const MountainPiece = ({
           itemSize={3}
         />
       </bufferGeometry>
-      <meshStandardMaterial vertexColors wireframe />
+      <meshStandardMaterial vertexColors />
     </mesh>
   );
 };
