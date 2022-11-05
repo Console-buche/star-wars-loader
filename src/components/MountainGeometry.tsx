@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+
 type MountainGenerativeGeometry = {
   top?: [number, number, number];
   left?: [number, number, number];
@@ -24,14 +26,14 @@ function generateChunk({fromChunk, hFactor = 1}: ChunkGeneratorOptions):number[]
       return position + offsetX
     }
 
-    if (i===7 || i ===9 || i === 10) { // update top to newTop
+    if (i === 7 || i === 9 || i === 10) { // update top to newTop
       return position + newTop
     }
 
-    if (i===12 ) { // update top left corner
+    if (i === 12 ) { // update top left corner
       return fromChunk[6]
     }
-    if (i===13 ) { // update top left corner
+    if (i ===13 ) { // update top left corner
       return fromChunk[7]
     }
 
@@ -61,24 +63,35 @@ export const MountainGenerativeGeometry = ({
     ...leftTri
   ]
 
-  const additionnalChunk = generateChunk({fromChunk:baseChunk, hFactor:5})
+  const additionnalChunk = generateChunk({fromChunk:baseChunk})
   const additionnalChunk2 = generateChunk({fromChunk:additionnalChunk})
   const additionnalChunk3 = generateChunk({fromChunk:additionnalChunk2})
 
   const chunks = new Float32Array([...baseChunk, ...additionnalChunk, ...additionnalChunk2, ...additionnalChunk3]);
 
 
+const normals = useMemo(() => {
 
-  // calc same normals for all tris
-  const n = Array.from({ length: chunks.length / 3 }, () => [
-    0, 0, 1,
-  ]);
-  const normals = new Float32Array(n.flat());
+    // calc same normals for all tris
+    const n = Array.from({ length: chunks.length / 3 }, () => [
+      0, 0, 1,
+    ]);
+    return new Float32Array(n.flat());
 
-  const colors = new Float32Array([
-    1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
-    0, 0,
-  ]);
+    
+}, [chunks.length])
+
+
+  const colors = useMemo(() => { 
+    // calc same normals for all tris
+    const c = Array.from({ length: chunks.length / 3 }, () => [
+      1, 0, 0,
+    ]);
+     const colors = new Float32Array(c.flat());
+
+    return colors
+  }, [])
+
 
   const t = Math.random() + 0.1;
 
@@ -104,7 +117,7 @@ export const MountainGenerativeGeometry = ({
           itemSize={3}
         />
       </bufferGeometry>
-      <meshStandardMaterial vertexColors wireframe />
+      <meshStandardMaterial vertexColors   />
     </mesh>
   );
 };
