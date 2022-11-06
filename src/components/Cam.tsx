@@ -16,5 +16,5 @@ export const Cam = ({}: CamProps) => {
 
         ref.current.lookAt(new Vector3(0, ref.current.position.y, -1))
     },)
-  return <PerspectiveCamera ref={ref} fov={50} position={[0, 1.1, 2.9]}  makeDefault/>
+  return <PerspectiveCamera ref={ref} fov={50} position={[0, 1.5, 2.9]}  makeDefault/>
 }
