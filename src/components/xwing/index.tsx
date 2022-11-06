@@ -1,8 +1,6 @@
-import { SpotLight } from "@react-three/drei"
 import { useFrame, useThree } from "@react-three/fiber"
-import { useControls } from "leva"
 import { useRef } from "react"
-import { Group, Light, MathUtils, SpotLight as DT, Vector3 } from "three"
+import { Group, MathUtils, Vector3 } from "three"
 import { XwingModel } from "./Xwing.model"
 
 type XWingProps = {}
@@ -10,27 +8,6 @@ type XWingProps = {}
 export const XWing = ({}: XWingProps) => {
     const { viewport } = useThree()
     const ref = useRef<Group>(null)
-
-    const {x,y,z} = useControls({
-        x: {
-            value:0,
-            step:0.01,
-            min:0,
-            max:5
-        },
-        y: {
-            value:12,
-            step:0.01,
-            min:0,
-            max:10
-        },
-        z: {
-            value:0,
-            step:0.01,
-            min:0,
-            max:5
-        }
-    })
 
     useFrame(({clock, mouse}) => {
         if (!ref.current ) {
