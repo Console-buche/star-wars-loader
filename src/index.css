@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&family=Stardos+Stencil:wght@700&display=swap');
+
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -16,7 +18,8 @@
 }
 
 body {
-  background-color: black;
+  /* background-color: black; */
+
 }
 
 a {
@@ -24,6 +27,7 @@ a {
   color: #646cff;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #535bf2;
 }
@@ -34,6 +38,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  font-family: 'Stardos Stencil', cursive;
 }
 
 h1 {
@@ -52,9 +57,11 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -65,8 +72,8 @@ button:focus-visible {
 /* STYLING RAPIDE */
 
 canvas {
-  width:100vw;
-  height:50vh;
+  width: 100vw;
+  height: 50vh;
 }
 
 
@@ -81,13 +88,12 @@ canvas {
     color: #213547;
     background-color: #ffffff;
   }
+
   a:hover {
     color: #747bff;
   }
+
   button {
     background-color: #f9f9f9;
   }
 }
-
-
-

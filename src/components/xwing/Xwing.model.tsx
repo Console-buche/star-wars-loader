@@ -37,13 +37,13 @@ export const XwingModel = forwardRef((props: JSX.IntrinsicElements['group'], ref
       <group rotation={[-Math.PI / 2, 0, 0]} scale={0.72}>
         <group rotation={[Math.PI / 2, 0, 0]}>
           <group position={[0, 0, 0]} rotation={[0, 0, -Math.PI / 2]}>
-            <mesh geometry={nodes.Object_10.geometry} material={materials['Material.004']} />
-            <mesh geometry={nodes.Object_4.geometry} material={materials.Basic} />
-            <mesh geometry={nodes.Object_5.geometry} material={materials['Material.003']} />
-            <mesh geometry={nodes.Object_6.geometry} material={materials.Darkness} />
-            <mesh geometry={nodes.Object_7.geometry} material={materials.Emission} />
-            <mesh geometry={nodes.Object_8.geometry} material={materials['Material.001']} />
-            <mesh geometry={nodes.Object_9.geometry} material={materials['Material.002']} />
+            <mesh castShadow geometry={nodes.Object_10.geometry} material={materials['Material.004']} />
+            <mesh castShadow geometry={nodes.Object_4.geometry} material={materials.Basic} />
+            <mesh castShadow geometry={nodes.Object_5.geometry} material={materials['Material.003']} />
+            <mesh castShadow geometry={nodes.Object_6.geometry} material={materials.Darkness} />
+            <mesh castShadow geometry={nodes.Object_7.geometry} material={materials.Emission} />
+            <mesh castShadow geometry={nodes.Object_8.geometry} material={materials['Material.001']} />
+            <mesh castShadow geometry={nodes.Object_9.geometry} material={materials['Material.002']} />
           </group>
         </group>
       </group>

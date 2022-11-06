@@ -139,7 +139,7 @@ const colors = useMemo(() => {
 
 
   return (
-    <mesh position={position} scale-x={scaleX} scale-y={scaleY}>
+    <mesh position={position} scale-x={scaleX} scale-y={scaleY} >
       <bufferGeometry>
         <bufferAttribute
           ref={refPositions}
