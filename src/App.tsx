@@ -1,11 +1,7 @@
-import { XwingLoader } from "./components/XwingLoader";
+import { Scene } from "./components/scene";
 
 function App() {
-  return <XwingLoader />
+  return <Scene />;
 }
 
 export default App;
-
-
-
-
