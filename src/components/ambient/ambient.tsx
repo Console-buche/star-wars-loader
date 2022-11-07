@@ -14,9 +14,6 @@ export const Ambient = ({}: AmbientProps) => {
         fade
         speed={1}
       />
-      <fog attach="fog" color="#F27774" near={1} far={25} />
-      <color attach="background" args={["#000"]} />
-      <ambientLight intensity={0.5} color={"#F0EC80"} />
       <directionalLight
         shadow-camera-left={-20}
         shadow-camera-right={20}
@@ -25,6 +22,10 @@ export const Ambient = ({}: AmbientProps) => {
         castShadow
         position={[0, 12, 0]}
       />
+
+      <fogExp2 attach="fog" color="#F27774" density={0.04} />
+      <ambientLight intensity={0.1} />
+      <color attach="background" args={["#F0EC80"]} />
     </>
   );
 };

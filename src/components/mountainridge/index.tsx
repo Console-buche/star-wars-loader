@@ -19,8 +19,6 @@ export const MountainRidges = ({ animate }: MountainRidges) => {
         position={[-30, -2.5, -10]}
         scaleX={0.8}
         animate={animate}
-        color={[1, 1, 1]}
-        // color={[193 / 255, 83 / 255, 108 / 255]}
       />
       <MountainRidge
         scrollSpeed={0.12}
@@ -29,8 +27,6 @@ export const MountainRidges = ({ animate }: MountainRidges) => {
         scaleX={1.5}
         scaleY={3}
         animate={animate}
-        color={[1, 1, 1]}
-        // color={[193 / 255, 83 / 255, 108 / 255]}
       />
       <MountainRidge
         scrollSpeed={0.06}
@@ -39,8 +35,6 @@ export const MountainRidges = ({ animate }: MountainRidges) => {
         scaleX={2.96}
         scaleY={2.8}
         animate={animate}
-        color={[1, 1, 1]}
-        // color={[193 / 255, 83 / 255, 108 / 255]}
       />
     </group>
   );

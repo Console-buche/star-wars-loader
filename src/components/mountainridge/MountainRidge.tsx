@@ -10,7 +10,6 @@ type MountainGenerativeGeometry = {
   animate?: boolean;
   scaleY?: number;
   scaleX?: number;
-  color?: [number, number, number];
 };
 
 export const MountainRidge = ({
@@ -20,7 +19,6 @@ export const MountainRidge = ({
   scaleY,
   scaleX,
   animate = false,
-  color = [193 / 255, 83 / 255, 108 / 255],
 }: MountainGenerativeGeometry) => {
   const refPositions = useRef<BufferAttribute>(null);
 
@@ -47,7 +45,7 @@ export const MountainRidge = ({
   const colors = useMemo(() => {
     // calc same normals for all tris
     const c = Array.from({ length: chunkies.length / 3 }, (_, i) => {
-      return color;
+      return [36 / 255, 30 / 255, 52 / 255];
     });
     const colors = new Float32Array(c.flat());
 
