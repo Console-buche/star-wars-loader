@@ -1,4 +1,4 @@
-import { Scene } from "./components/Scene";
+import { Scene } from "./components/scene";
 
 function App() {
   return <Scene />;
