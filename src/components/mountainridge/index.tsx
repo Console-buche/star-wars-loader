@@ -31,7 +31,7 @@ export const MountainRidges = ({ animate }: MountainRidges) => {
       <MountainRidge
         scrollSpeed={0.06}
         chunkCount={50}
-        position={[-40, -0.6, -20]}
+        position={[-50, -0.6, -20]}
         scaleX={2.96}
         scaleY={2.8}
         animate={animate}
