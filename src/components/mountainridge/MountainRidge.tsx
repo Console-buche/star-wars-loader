@@ -1,6 +1,6 @@
 import { useFrame } from "@react-three/fiber";
 import { useMemo, useRef } from "react";
-import { BufferAttribute, Vector3 } from "three";
+import { BufferAttribute } from "three";
 import { generateChunk, populateInitial } from "./helpers";
 
 type MountainGenerativeGeometry = {
